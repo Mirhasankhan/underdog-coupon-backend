@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.userRoutes = void 0;
+const express_1 = __importDefault(require("express"));
+// import { UserControllers } from "./user.controller";
+// import validateRequest from "../../middlewares/validateRequest";
+// import { userValidation } from "./user.validation";
+// import { UserRole } from "@prisma/client";
+// import auth from "../../middlewares/auth";
+const router = express_1.default.Router();
+router.post("/create");
+// router.get("/", auth(UserRole.ADMIN), UserControllers.getUsers);
+// router.get("/locations", UserControllers.getUserLocations);
+// router.get("/:id", auth(), UserControllers.getSingleUser);
+// router.get("/location/:id", UserControllers.getUserLocation);
+// router.put("/:id", validateRequest(userValidation.userUpdateValidationSchema),auth(UserRole.ADMIN), UserControllers.updateUser);
+// router.delete("/:id", auth(UserRole.ADMIN), UserControllers.deleteUser);
+exports.userRoutes = router;
