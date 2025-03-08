@@ -13,7 +13,7 @@ router.post(
   validateRequest(couponValidation.couponValidationSchema),
   couponController.createCoupon
 );
-router.get("/", auth(UserRole.ADMIN), couponController.getCoupons);
+router.get("/", couponController.getCoupons);
 router.delete("/delete/:id", auth(UserRole.ADMIN), couponController.deleteCoupon);
 
 export const couponRoutes = router;

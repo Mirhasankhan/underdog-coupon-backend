@@ -8,7 +8,6 @@ const http_status_1 = __importDefault(require("http-status"));
 const cors_1 = __importDefault(require("cors"));
 const globalErrorHandler_1 = __importDefault(require("./app/middlewares/globalErrorHandler"));
 const client_1 = require("@prisma/client");
-const path_1 = __importDefault(require("path"));
 const routes_1 = __importDefault(require("./app/routes"));
 const app = (0, express_1.default)();
 const prisma = new client_1.PrismaClient();
@@ -21,10 +20,14 @@ prisma
     .catch((error) => {
     console.error("Failed to connect to the database:", error);
 });
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+}));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
-app.use("/uploads", express_1.default.static(path_1.default.join(__dirname, "..", "uploads")));
+// app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 // Route handler for root endpoint
 app.get("/", (req, res) => {
     res.send({
@@ -35,7 +38,6 @@ app.get("/", (req, res) => {
 app.use("/api/v1", routes_1.default);
 // Global Error Handler
 app.use(globalErrorHandler_1.default);
-// API Not found handler
 app.use((req, res, next) => {
     res.status(http_status_1.default.NOT_FOUND).json({
         success: false,

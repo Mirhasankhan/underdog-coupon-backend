@@ -12,41 +12,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserControllers = void 0;
+exports.revieController = void 0;
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
-const user_service_1 = require("./user.service");
-const createUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_service_1.userService.createUserIntoDB(req.body);
+const review_service_1 = require("./review.service");
+const createReview = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield review_service_1.reviewService.createReviewIntoDB(req.body);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: 201,
-        message: "User created successfully",
+        message: "Review Provided Successfully",
         data: result,
     });
 }));
-//get users
-const getUsers = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const users = yield user_service_1.userService.getUsersFromDB();
+const getReviews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { reviews, ratingPercentages, monthWiseReviews } = yield review_service_1.reviewService.getAllReviews();
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: 200,
-        message: "Users retrived successfully",
-        data: users,
+        message: "Reviews retrieved successfully",
+        data: {
+            reviews,
+            ratingPercentages,
+            monthWiseReviews,
+        },
     });
 }));
-//get single user
-const getSingleUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield user_service_1.userService.getSingleUserIntoDB(req.params.id);
-    (0, sendResponse_1.default)(res, {
-        success: true,
-        statusCode: 200,
-        message: "user retrived successfully",
-        data: user,
-    });
-}));
-exports.UserControllers = {
-    createUser,
-    getUsers,
-    getSingleUser,
+exports.revieController = {
+    createReview,
+    getReviews,
 };

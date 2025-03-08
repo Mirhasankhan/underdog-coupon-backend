@@ -18,11 +18,14 @@ prisma
     console.error("Failed to connect to the database:", error);
   });
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
-
 
 // Route handler for root endpoint
 app.get("/", (req: Request, res: Response) => {
@@ -36,7 +39,6 @@ app.use("/api/v1", router);
 
 // Global Error Handler
 app.use(GlobalErrorHandler);
-
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.status(httpStatus.NOT_FOUND).json({

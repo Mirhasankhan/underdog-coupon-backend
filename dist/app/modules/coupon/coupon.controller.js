@@ -12,41 +12,40 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserControllers = void 0;
-const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
+exports.couponController = void 0;
+const coupon_service_1 = require("./coupon.service");
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
-const user_service_1 = require("./user.service");
-const createUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_service_1.userService.createUserIntoDB(req.body);
+const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
+const createCoupon = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield coupon_service_1.couponService.createCouponIntoDB(req.body);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: 201,
-        message: "User created successfully",
+        message: "Coupon created successfully",
         data: result,
     });
 }));
-//get users
-const getUsers = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const users = yield user_service_1.userService.getUsersFromDB();
+const getCoupons = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const coupons = yield coupon_service_1.couponService.getCouponFromDB();
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: 200,
-        message: "Users retrived successfully",
-        data: users,
+        message: "Coupons retrived successfully",
+        data: coupons,
     });
 }));
-//get single user
-const getSingleUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield user_service_1.userService.getSingleUserIntoDB(req.params.id);
+//delete user
+const deleteCoupon = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const couponId = req.params.id;
+    yield coupon_service_1.couponService.deleteCouponFromDB(couponId);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: 200,
-        message: "user retrived successfully",
-        data: user,
+        message: "Coupon deleted successfully",
     });
 }));
-exports.UserControllers = {
-    createUser,
-    getUsers,
-    getSingleUser,
+exports.couponController = {
+    createCoupon,
+    getCoupons,
+    deleteCoupon
 };

@@ -24,4 +24,12 @@ exports.default = {
         email: process.env.EMAIL,
         app_pass: process.env.APP_PASS,
     },
+    cloudinary: {
+        cloud_name: process.env.CLOUD_NAME,
+        api_key: process.env.API_KEY,
+        api_secret: process.env.API_SECRET,
+    },
+    stripe: {
+        stripe_secret: process.env.STRIPE_SK
+    }
 };

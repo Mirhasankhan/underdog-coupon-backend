@@ -6,6 +6,6 @@ import { UserRole } from "@prisma/client";
 const router = express.Router();
 
 router.post("/create", auth(), revieController.createReview);
-router.get("/", auth(UserRole.ADMIN), revieController.getReviews);
+router.get("/", revieController.getReviews);
 
 export const reviewRoutes = router;

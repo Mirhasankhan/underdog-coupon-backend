@@ -17,7 +17,7 @@ const validateRequest = (schema) => (req, res, next) => __awaiter(void 0, void 0
     }
     catch (err) {
         if (err instanceof zod_1.ZodError) {
-            return res.status(400).json({
+            res.status(400).json({
                 success: false,
                 message: "Validation failed",
                 errors: err.errors.map((error) => ({
@@ -30,3 +30,24 @@ const validateRequest = (schema) => (req, res, next) => __awaiter(void 0, void 0
     }
 });
 exports.default = validateRequest;
+// import { NextFunction, Request, Response } from "express";
+// import { AnyZodObject, ZodEffects } from "zod";
+// const validateRequest =
+//   (schema: AnyZodObject | ZodEffects<AnyZodObject>) =>
+//   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+//     try {
+//       if (typeof req.body.name === "string") {
+//         req.body.name = JSON.parse(req.body.name);
+//       }
+//       await schema.parseAsync({
+//         body: req.body,
+//         query: req.query,
+//         params: req.params,
+//         cookies: req.cookies,
+//       });
+//       return next();
+//     } catch (error) {
+//       next(error);
+//     }
+//   };
+// export default validateRequest;
