@@ -141,7 +141,6 @@ const resetForgotPasswordDB = async (newPassword: string, userId: string) => {
   if (!existingUser) {
     throw new ApiError(404, "user not found");
   }
-  console.log(existingUser) 
   const email = existingUser.email as string;
   const hashedPassword = await bcrypt.hash(
     newPassword,

@@ -5,7 +5,7 @@ import { userService } from "./user.service";
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
   const result = await userService.createUserIntoDB(req.body);
-  console.log(process.env.STRIPE_SECRET_KEY);
+
   sendResponse(res, {
     success: true,
     statusCode: 201,
