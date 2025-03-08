@@ -146,7 +146,7 @@ export const createPaymentIntent = async (
   const validCoupons = planCoupons.filter(coupon => coupon.used < coupon.limitNumber);
 
   if (validCoupons.length === 0) {
-    throw new ApiError(400, "No valid coupons left that meet the criteria.");
+    throw new ApiError(400, "No valid couponss left that meet the criteria.");
   }
 
   let randomCoupons: any[] = [];
