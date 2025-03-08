@@ -10,6 +10,10 @@ const createCouponIntoDB = async (payload: Coupon) => {
     throw new ApiError(409, "A coupon with this code already exists.");
   }
 
+  if (new Date(payload.activeFrom) > new Date(payload.activeTo)) {
+    throw new ApiError(400, "The 'activeFrom' date cannot be later than the 'activeTo' date.");
+  }
+
   const coupon = await prisma.coupon.create({
     data: {
       ...payload,

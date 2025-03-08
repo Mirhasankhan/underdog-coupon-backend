@@ -11,8 +11,8 @@ export const createPaymentIntent = async (
   userId: string,
   planType: CouponPlan
 ) => {
-  if(!planType){
-    throw new ApiError(401,"Plantype wasn't provided.")
+  if (!planType) {
+    throw new ApiError(401, "Plantype wasn't provided.");
   }
   const amount = planType == "BASIC" ? 10 : 20;
 
@@ -43,9 +43,9 @@ export const createPaymentIntent = async (
     data: {
       amount: amount,
       currency: "usd",
-      stripeId: paymentIntent.id,    
+      stripeId: paymentIntent.id,
       userId: userId,
-      planType:planType,
+      planType: planType,
       codes: randomCoupons.map((coupon) => coupon.code),
     },
   });
@@ -55,6 +55,71 @@ export const createPaymentIntent = async (
     randomCoupons,
   };
 };
+
+// Create a new Stripe customer
+// const createCustomer = async (
+//   email: string,
+//   userName: string,
+//   password: string
+// ) => {
+//   const customer = await stripe.customers.create({
+//     email,
+//     name: userName,
+//   });
+
+//   // Store customer in database
+//   await prisma.user.create({
+//     data: {
+//       email,
+//       userName,
+//       password,
+//       stripeCustomerId: customer.id,
+//     },
+//   });
+
+//   return customer;
+// };
+
+// const createCheckoutSession = async (customerId: string, priceId: string) => {
+//   const session = await stripe.checkout.sessions.create({
+//     payment_method_types: ["card"],
+//     mode: "subscription",
+//     customer: customerId,
+//     line_items: [
+//       {
+//         price: priceId,
+//         quantity: 1,
+//       },
+//     ],
+//     success_url:
+//       "http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}",
+//     cancel_url: "http://localhost:3000/cancel",
+//   });
+
+//   return session;
+// };
+// Handle Stripe webhook events
+// const handleWebhook = async (event) => {
+//   switch (event.type) {
+//     case "checkout.session.completed": {
+//       // const session = event.data.object;
+//       // await prisma.user.update({
+//       //   where: { stripeCustomerId: session.customer },
+//       //   data: { subscriptionStatus: "active" },
+//       // });
+//       console.log("completed,active");
+//       break;
+//     }
+//     case "customer.subscription.deleted": {
+//       console.log("Deleted,active");
+//       break;
+//     }
+//   }
+// };
+
 export const subscriptionServices = {
+  // createCheckoutSession,
+  // createCustomer,
+  // handleWebhook,
   createPaymentIntent,
 };
