@@ -13,7 +13,12 @@ router.post(
   subscriptionController.handleCreatePaymentIntent
 );
 router.get("/subscription", auth(), subscriptionController.getSubscription);
-router.post("/addCard", auth(),validateRequest(subscriptionValidation.cardZodSchema), subscriptionController.addNewCard);
+router.post(
+  "/addCard",
+  auth(),
+  validateRequest(subscriptionValidation.cardZodSchema),
+  subscriptionController.addNewCard
+);
 router.get("/cards", auth(), subscriptionController.getCards);
 // Routes for Stripe API
 // router.post("/create-customer", subscriptionController.createCustomer);

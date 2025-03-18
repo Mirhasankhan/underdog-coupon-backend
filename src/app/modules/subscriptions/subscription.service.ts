@@ -142,6 +142,17 @@ const createPaymentIntent = async (userId: string, planType: CouponPlan) => {
     },
   });
 
+  await prisma.user.update({
+    where: { id: userId },
+    data: { isSubscribed: true },
+  });
+  await prisma.notification.create({
+    data: {
+      userId: userId,
+      message: "Your payment is successfull.",
+    },
+  });
+
   return {
     clientSecret: paymentIntent.client_secret,
     paymentRecord,
@@ -195,5 +206,5 @@ export const subscriptionServices = {
   createPaymentIntent,
   getSubscriptionFromDB,
   addCardIntoDB,
-  getCardsFromDb
+  getCardsFromDb,
 };

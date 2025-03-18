@@ -33,7 +33,7 @@ const loginUserIntoDB = async (payload: any) => {
     config.jwt.expires_in as string
   );
 
-  const { password, status, createdAt, updatedAt, ...userInfo } = user;
+  const { password, createdAt, updatedAt, ...userInfo } = user;
 
   return {
     accessToken,

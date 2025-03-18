@@ -133,6 +133,16 @@ const createPaymentIntent = (userId, planType) => __awaiter(void 0, void 0, void
             codes: randomCoupons.map((coupon) => coupon.code),
         },
     });
+    yield prismaClient_1.default.user.update({
+        where: { id: userId },
+        data: { isSubscribed: true },
+    });
+    yield prismaClient_1.default.notification.create({
+        data: {
+            userId: userId,
+            message: "Your payment is successfull.",
+        },
+    });
     return {
         clientSecret: paymentIntent.client_secret,
         paymentRecord,
@@ -177,5 +187,5 @@ exports.subscriptionServices = {
     createPaymentIntent,
     getSubscriptionFromDB,
     addCardIntoDB,
-    getCardsFromDb
+    getCardsFromDb,
 };

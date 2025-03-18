@@ -26,7 +26,8 @@ const createReview = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
     });
 }));
 const getReviews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { reviews, ratingPercentages, monthWiseReviews } = yield review_service_1.reviewService.getAllReviews();
+    const id = req.query.id;
+    const { reviews, ratingPercentages, monthWiseReviews } = yield review_service_1.reviewService.getAllReviews(id);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: 200,

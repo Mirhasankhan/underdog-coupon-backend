@@ -14,20 +14,21 @@ const createReview = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getReviews = catchAsync(async (req: Request, res: Response) => {
-  const { reviews, ratingPercentages, monthWiseReviews } = await reviewService.getAllReviews();
+  const id = req.query.id;
+  const { reviews, ratingPercentages, monthWiseReviews } =
+    await reviewService.getAllReviews(id as string);
 
   sendResponse(res, {
     success: true,
     statusCode: 200,
     message: "Reviews retrieved successfully",
     data: {
-      reviews, 
-      ratingPercentages, 
+      reviews,
+      ratingPercentages,
       monthWiseReviews,
     },
   });
 });
-
 
 export const revieController = {
   createReview,

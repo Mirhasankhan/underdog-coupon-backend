@@ -14,7 +14,7 @@ const router = express_1.default.Router();
 router.post("/create", (0, validateRequest_1.default)(user_validation_1.userValidation.userRegisterValidationSchema), user_controller_1.UserControllers.createUser);
 router.get("/", (0, auth_1.default)(client_1.UserRole.ADMIN), user_controller_1.UserControllers.getUsers);
 // router.get("/locations", UserControllers.getUserLocations);
-router.get("/:id", (0, auth_1.default)(), user_controller_1.UserControllers.getSingleUser);
+router.get("/currentUser", (0, auth_1.default)(), user_controller_1.UserControllers.getSingleUser);
 router.get("/user/notifications", (0, auth_1.default)(), user_controller_1.UserControllers.getNotifications);
 // router.get("/location/:id", UserControllers.getUserLocation);
 router.put("/update", (0, validateRequest_1.default)(user_validation_1.userValidation.userUpdateValidationSchema), (0, auth_1.default)(), user_controller_1.UserControllers.updateUser);

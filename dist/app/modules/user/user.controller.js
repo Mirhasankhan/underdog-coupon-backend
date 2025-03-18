@@ -37,7 +37,8 @@ const getUsers = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 
 }));
 //get single user
 const getSingleUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield user_service_1.userService.getSingleUserIntoDB(req.params.id);
+    const id = req.user.id;
+    const user = yield user_service_1.userService.getSingleUserIntoDB(id);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: 200,
@@ -71,5 +72,5 @@ exports.UserControllers = {
     getUsers,
     getSingleUser,
     updateUser,
-    getNotifications
+    getNotifications,
 };

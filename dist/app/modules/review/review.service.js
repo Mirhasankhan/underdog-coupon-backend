@@ -22,8 +22,11 @@ const createReviewIntoDB = (payload) => __awaiter(void 0, void 0, void 0, functi
     });
     return { review };
 });
-const getAllReviews = () => __awaiter(void 0, void 0, void 0, function* () {
-    const reviews = yield prismaClient_1.default.review.findMany();
+const getAllReviews = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const filter = id ? { restaurantId: id } : {};
+    const reviews = yield prismaClient_1.default.review.findMany({
+        where: filter,
+    });
     if (reviews.length === 0) {
         throw new ApiErrors_1.default(404, "Reviews not found!");
     }

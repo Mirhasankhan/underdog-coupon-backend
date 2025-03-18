@@ -17,8 +17,11 @@ const createReviewIntoDB = async (payload: {
   return { review };
 };
 
-const getAllReviews = async () => {
-  const reviews = await prisma.review.findMany();
+const getAllReviews = async (id?: string) => {
+  const filter = id ? { restaurantId: id } : {};
+  const reviews = await prisma.review.findMany({
+    where: filter,
+  });
 
   if (reviews.length === 0) {
     throw new ApiError(404, "Reviews not found!");

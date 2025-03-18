@@ -1,4 +1,4 @@
-import { UserRole, UserStatus } from "@prisma/client";
+import { UserRole } from "@prisma/client";
 
 export interface IUser {
   userName: string;
@@ -11,5 +11,5 @@ export interface IUpdateUser {
   mobile?: string;
   avatar?: string;
   role?: UserRole;
-  status?: UserStatus;
+  isSubscribed?: boolean;
 }

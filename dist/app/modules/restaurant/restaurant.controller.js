@@ -26,7 +26,9 @@ const createRestaurant = (0, catchAsync_1.default)((req, res) => __awaiter(void 
     });
 }));
 const getRestaurants = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield restaurant_service_1.restaurantService.getRestaurantsFromDB();
+    const email = req.query.email;
+    const page = req.query.page;
+    const result = yield restaurant_service_1.restaurantService.getRestaurantsFromDB(Number(page), email);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: 201,
@@ -44,7 +46,7 @@ const deleteRestarant = (0, catchAsync_1.default)((req, res) => __awaiter(void 0
     });
 }));
 const updateRestaurant = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield restaurant_service_1.restaurantService.updateRestaurantFromDB(req.params.id, req.body);
+    const result = yield restaurant_service_1.restaurantService.updateRestaurantFromDB(req.params.id, req);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: 200,

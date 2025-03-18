@@ -27,7 +27,8 @@ const getUsers = catchAsync(async (req: Request, res: Response) => {
 
 //get single user
 const getSingleUser = catchAsync(async (req: Request, res: Response) => {
-  const user = await userService.getSingleUserIntoDB(req.params.id);
+  const id = req.user.id;
+  const user = await userService.getSingleUserIntoDB(id);
   sendResponse(res, {
     success: true,
     statusCode: 200,
@@ -46,10 +47,9 @@ const updateUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-
 //get users
 const getNotifications = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user.id
+  const userId = req.user.id;
   const notifications = await userService.getNotificationsFromDB(userId);
   sendResponse(res, {
     success: true,
@@ -64,5 +64,5 @@ export const UserControllers = {
   getUsers,
   getSingleUser,
   updateUser,
-  getNotifications
+  getNotifications,
 };

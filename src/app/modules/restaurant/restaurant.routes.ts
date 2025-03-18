@@ -17,7 +17,7 @@ router.post(
   // validateRequest(restaurantValidation.restaurantValidationSchema),
   restaurantController.createRestaurant
 );
-router.get("/", auth(UserRole.ADMIN), restaurantController.getRestaurants);
+router.get("/", restaurantController.getRestaurants);
 router.delete(
   "/delete/:id",
   auth(UserRole.ADMIN),
@@ -25,6 +25,8 @@ router.delete(
 );
 router.put(
   "/update/:id",
+  fileUploader.uploadMultiple,
+  parseBodyData,
   validateRequest(restaurantValidation.updateRestaurantValidationSchema),
   restaurantController.updateRestaurant
 );

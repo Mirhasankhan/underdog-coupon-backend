@@ -17,7 +17,8 @@ model User {
   password  String 
   phone     String?
   role      UserRole  @default(USER)
-  status    UserStatus @default(ACTIVE)
+  isSubscribed Boolean @default(false) // Added field
+  restaurant    Restaurant? 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
@@ -74,7 +75,8 @@ model Restaurant {
   location      String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-
+  ownerId       String   @unique @db.ObjectId
+  owner         User     @relation(fields: [ownerId], references: [id])
   reviews       Review[]
 
   @@map("restaurants")
@@ -132,13 +134,10 @@ model Otp {
   @@map("otps")
 }
 
-enum UserStatus {
-  ACTIVE
-  BLOCKED
-  DELETED
-}
+
 
 enum UserRole {
   ADMIN
   USER
+  SELLER
 }

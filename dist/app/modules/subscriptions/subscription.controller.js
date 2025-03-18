@@ -62,9 +62,13 @@ const getCards = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 
 }));
 // Create a new Stripe customer
 // const createCustomer = async (req: Request, res: Response) => {
-//   const { email, userName,password } = req.body;
+//   const { email, userName, password } = req.body;
 //   try {
-//     const customer = await subscriptionServices.createCustomer(email, userName,password);
+//     const customer = await subscriptionServices.createCustomer(
+//       email,
+//       userName,
+//       password
+//     );
 //     res.json({ customerId: customer.id });
 //   } catch (error: any) {
 //     res.status(500).json({ error: error.message });
@@ -106,8 +110,8 @@ exports.subscriptionController = {
     handleCreatePaymentIntent,
     getSubscription,
     addNewCard,
-    getCards
+    getCards,
     // handleWebhook,
     // createCheckoutSession,
-    // createCustomer
+    // createCustomer,
 };

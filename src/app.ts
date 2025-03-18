@@ -21,7 +21,11 @@ prisma
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "https://underdog-coupons-dashboard.vercel.app",
+    ],
+    credentials: true,
   })
 );
 app.use(express.json());
@@ -43,9 +47,9 @@ app.get("/", (req: Request, res: Response) => {
 //     const audioData = response.data;
 //     res.send({
 //       message: "Welcome to API main route",
-//       audioData: audioData.data.surahs, 
+//       audioData: audioData.data.surahs,
 //     });
-//   } catch (error) {    
+//   } catch (error) {
 //     res.status(500).send({
 //       message: "Error fetching Quran audio",
 //       error: "something went wrong",
@@ -57,10 +61,12 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/v1", router);
 
 app.get("/quranAudio", async (req: Request, res: Response) => {
-  try { 
-    const response = await axios.get("http://api.alquran.cloud/v1/quran/ar.alafasy"); 
+  try {
+    const response = await axios.get(
+      "http://api.alquran.cloud/v1/quran/ar.alafasy"
+    );
     const surahs = response.data.data.surahs;
-       
+
     const processedSurahs = surahs.map((surah: any) => {
       return {
         surah_number: surah.number,
@@ -70,11 +76,11 @@ app.get("/quranAudio", async (req: Request, res: Response) => {
             ayah_number: ayah.number,
             audio_link: ayah.audio,
           };
-        })
+        }),
       };
     });
-    
-    res.send({   
+
+    res.send({
       audioData: processedSurahs,
     });
   } catch (error) {

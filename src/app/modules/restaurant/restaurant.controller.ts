@@ -14,7 +14,12 @@ const createRestaurant = catchAsync(async (req, res) => {
   });
 });
 const getRestaurants = catchAsync(async (req: Request, res: Response) => {
-  const result = await restaurantService.getRestaurantsFromDB();
+  const email = req.query.email;
+  const page = req.query.page;
+  const result = await restaurantService.getRestaurantsFromDB(
+    Number(page),
+    email as string
+  );
 
   sendResponse(res, {
     success: true,
@@ -37,7 +42,7 @@ const deleteRestarant = catchAsync(async (req: Request, res: Response) => {
 const updateRestaurant = catchAsync(async (req: Request, res: Response) => {
   const result = await restaurantService.updateRestaurantFromDB(
     req.params.id,
-    req.body
+    req
   );
   sendResponse(res, {
     success: true,

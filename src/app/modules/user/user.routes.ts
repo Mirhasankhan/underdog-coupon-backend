@@ -14,10 +14,14 @@ router.post(
 );
 router.get("/", auth(UserRole.ADMIN), UserControllers.getUsers);
 // router.get("/locations", UserControllers.getUserLocations);
-router.get("/:id", auth(), UserControllers.getSingleUser);
+router.get("/currentUser", auth(), UserControllers.getSingleUser);
 router.get("/user/notifications", auth(), UserControllers.getNotifications);
 // router.get("/location/:id", UserControllers.getUserLocation);
-router.put("/update", validateRequest(userValidation.userUpdateValidationSchema),auth(), UserControllers.updateUser);
-
+router.put(
+  "/update",
+  validateRequest(userValidation.userUpdateValidationSchema),
+  auth(),
+  UserControllers.updateUser
+);
 
 export const userRoutes = router;
