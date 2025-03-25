@@ -22,6 +22,7 @@ const getAllReviews = async (id?: string) => {
   const reviews = await prisma.review.findMany({
     where: filter,
   });
+ 
 
   if (reviews.length === 0) {
     throw new ApiError(404, "Reviews not found!");

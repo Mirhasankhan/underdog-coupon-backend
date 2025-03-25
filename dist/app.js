@@ -39,8 +39,26 @@ app.use((0, cors_1.default)({
 }));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
-// app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 // Route handler for root endpoint
+// app.get("/api/v1/nearby-restaurants", async (req, res) => {
+//   const userLocation = [90.43232930330689, 23.763291507124567];
+//   const restaurants = await prisma.restaurant.findRaw({
+//     filter: {
+//       locationData: {
+//         $geoWithin: {
+//           $centerSphere: [userLocation, 1 / 6378.1], 
+//         },
+//       },
+//     },
+//   });
+//   const result = restaurants?.map(restaurant => ({
+//     restaurantName: restaurant.restaurantName,
+//     location: restaurant.location,
+//     imageUrl: restaurant.imageUrl,
+//     contact: restaurant.contact
+//   }));
+//   res.json({ result });
+// });
 app.get("/", (req, res) => {
     res.send({
         Message: "Welcome to api main route",

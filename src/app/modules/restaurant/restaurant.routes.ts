@@ -17,6 +17,11 @@ router.post(
   // validateRequest(restaurantValidation.restaurantValidationSchema),
   restaurantController.createRestaurant
 );
+// router.post(
+//   "/send-notification",
+//   auth(),
+//   restaurantController.sendNotification
+// );
 router.get("/", restaurantController.getRestaurants);
 router.delete(
   "/delete/:id",

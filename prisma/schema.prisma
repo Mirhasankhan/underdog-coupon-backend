@@ -11,36 +11,36 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  userName  String
-  email     String    @unique
-  password  String 
-  phone     String?
-  role      UserRole  @default(USER)
-  isSubscribed Boolean @default(false) // Added field
-  restaurant    Restaurant? 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  userName     String
+  email        String      @unique
+  password     String
+  phone        String?
+  fcmToken    String?
+  role         UserRole    @default(USER)
+  isSubscribed Boolean     @default(false) // Added field
+  restaurant   Restaurant?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 
-  payments  Payment[] // One-to-many relationship
-  cards     Card[]
-  notifications     Notification[]
+  payments      Payment[] // One-to-many relationship
+  cards         Card[]
+  notifications Notification[]
 
   @@map("users")
 }
 
-
 model Coupon {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
   plan        CouponPlan
   couponName  String
-  code        String    @unique
+  code        String     @unique
   activeFrom  DateTime
   activeTo    DateTime
   limitNumber Int
-  used        Int       @default(0)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  used        Int        @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 
   @@map("coupons")
 }
@@ -50,42 +50,41 @@ enum CouponPlan {
   PREMIUM
 }
 
-
 model Payment {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  userId      String    @db.ObjectId
-  amount      Float
-  currency    String
-  planType        CouponPlan
-  stripeId    String  @unique
-  createdAt   DateTime @default(now())
-  codes      String[]
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String     @db.ObjectId
+  amount    Float
+  currency  String
+  planType  CouponPlan
+  stripeId  String     @unique
+  createdAt DateTime   @default(now())
+  codes     String[]
 
-  user        User     @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 
   @@map("payments")
 }
 
 model Restaurant {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  imageUrl      String
-  videoUrl      String?  
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  imageUrl       String
+  videoUrl       String?
   restaurantName String
-  contact       String
-  location      String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  ownerId       String   @unique @db.ObjectId
-  owner         User     @relation(fields: [ownerId], references: [id])
-  reviews       Review[]
+  contact        String 
+  location       String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  ownerId        String   @unique @db.ObjectId
+  owner          User     @relation(fields: [ownerId], references: [id])
+  reviews        Review[]
 
   @@map("restaurants")
 }
 
 model Card {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  userId     String    @db.ObjectId
-  cardNumber String @unique
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @db.ObjectId
+  cardNumber String   @unique
   holderName String
   endMonth   Int
   endYear    Int
@@ -93,35 +92,34 @@ model Card {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  user        User     @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 
   @@map("cards")
 }
 
-
 model Review {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   userName     String
-  restaurantId String   
-  rating       Int      
+  restaurantId String   @db.ObjectId
+  rating       Int
   comment      String?
   createdAt    DateTime @default(now())
 
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade) 
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 
   @@map("reviews")
 }
-model Notification {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  message      String 
-  userId       String    @db.ObjectId 
-  createdAt    DateTime @default(now())
 
-  user        User     @relation(fields: [userId], references: [id])
+model Notification {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  message   String
+  userId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
 
   @@map("notifications")
 }
-
 
 model Otp {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -133,8 +131,6 @@ model Otp {
 
   @@map("otps")
 }
-
-
 
 enum UserRole {
   ADMIN

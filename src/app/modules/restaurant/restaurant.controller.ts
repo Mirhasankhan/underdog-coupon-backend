@@ -52,9 +52,20 @@ const updateRestaurant = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// const sendNotification = catchAsync(async (req: any, res: any) => {
+//   const notification = await restaurantService.sendSingleNotification(req);
+//   sendResponse(res, {
+//     statusCode: 200,
+//     success: true,
+//     message: 'notification sent successfully',
+//     data: notification,
+//   });
+// });
+
 export const restaurantController = {
   createRestaurant,
   getRestaurants,
   deleteRestarant,
   updateRestaurant,
+  // sendNotification
 };

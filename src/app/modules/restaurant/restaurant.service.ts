@@ -4,6 +4,7 @@ import ApiError from "../../../errors/ApiErrors";
 import { uploadInSpace } from "../../../shared/UploadHelper";
 import { Request } from "express";
 import bcrypt from "bcryptjs";
+import admin from "../../../helpers/firebaseAdmin";
 
 const createRestaurantIntoDB = async (req: Request) => {
   const payload = req.body;
@@ -84,7 +85,21 @@ const getRestaurantsFromDB = async (page?: number, email?: string) => {
     throw new ApiError(404, "Restaurants not found!");
   }
 
-  return restaurants;
+  const updatedRestaurants = restaurants.map((restaurant) => {
+    const totalReviews = restaurant.reviews.length;
+    const averageRating =
+      totalReviews > 0
+        ? restaurant.reviews.reduce((sum, review) => sum + review.rating, 0) /
+          totalReviews
+        : null;
+
+    return {
+      ...restaurant,
+      averageRating,
+    };
+  });
+
+  return updatedRestaurants;
 };
 
 const deleteRestaurnatFromDB = async (restaurantId: string) => {
@@ -142,9 +157,80 @@ const updateRestaurantFromDB = async (id: string, restaurantData: any) => {
   return updatedRestaurant;
 };
 
+// const sendSingleNotification = async (req: any) => {
+//   const { latitude, longitude, userId} = req.body;
+
+//   if (!latitude || !longitude) {
+//     throw new ApiError(400, "Latitude and Longitude are required");
+//   }
+//   const user = await prisma.user.findUnique({
+//     where: { id: userId },
+//   });
+
+//   if (!user?.fcmToken) {
+//     throw new ApiError(404, "User not found with FCM token");
+//   }
+ 
+//   const nearbyRestaurantsRaw = await prisma.restaurant.findRaw({
+//     filter: {
+//       locationData: {
+//         $geoWithin: {
+//           $centerSphere: [[longitude, latitude], 1 / 6378.1],
+//         },
+//       },
+//     },
+//   }) 
+
+//   const nearbyRestaurants = (nearbyRestaurantsRaw as unknown) as any[];
+
+//   if (!nearbyRestaurants.length) {
+//     throw new ApiError(404, "No nearby restaurants found");
+//   }
+
+//   const formattedRestaurants = nearbyRestaurants?.map((r: any) => ({
+//     name: r.restaurantName,
+//     address: r.location,
+//     latitude: r.locationData.coordinates[1],
+//     longitude: r.locationData.coordinates[0],
+//   }));
+
+//   const messageBody = formattedRestaurants
+//     .map(
+//       (r: {
+//         name: string;
+//         address: string;
+//         latitude: string;
+//         longitude: string;
+//       }) => `${r.name} - ${r.address} (Lat: ${r.latitude}, Lng: ${r.longitude})`
+//     )
+//     .join("\n");
+
+//   const message = {
+//     notification: {
+//       title: "Restaurants Near You!",
+//       body: messageBody,
+//     },
+//     token: user.fcmToken,
+//   };
+
+//   try {
+//     const response = await admin.messaging().send(message);
+//     return response;
+//   } catch (error: any) {
+//     if (error.code === "messaging/invalid-registration-token") {
+//       throw new ApiError(400, "Invalid FCM registration token");
+//     } else if (error.code === "messaging/registration-token-not-registered") {
+//       throw new ApiError(404, "FCM token is no longer registered");
+//     } else {
+//       throw new ApiError(500, "Failed to send notification");
+//     }
+//   }
+// };
+
 export const restaurantService = {
   createRestaurantIntoDB,
   getRestaurantsFromDB,
   deleteRestaurnatFromDB,
   updateRestaurantFromDB,
+  // sendSingleNotification
 };
